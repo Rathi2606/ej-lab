@@ -1,0 +1,18 @@
+HTML — index.html
+<!DOCTYPE html>
+<html>
+<head><title>EL Demo</title></head>
+<body>
+<form action="elDemo.jsp" method="post">
+  Name: <input name="name"> Age: <input name="age">
+  <input type="submit" value="Show">
+</form>
+</body>
+</html>
+
+JSP — elDemo.jsp
+<%@ page contentType="text/html;charset=UTF-8" %>
+<p>Name: ${param.name}</p>
+<p>Age: ${param.age}</p>
+<p>Uppercase Name: ${param.name.toUpperCase()}</p>
+<p>Next Year Age: ${param.age + 1}</p>
