@@ -1,0 +1,33 @@
+HTML — index.html
+<!DOCTYPE html>
+<html>
+<head><title>JSP Form Validation</title></head>
+<body>
+<form action="validate.jsp" method="post">
+  Name: <input name="name" required><br>
+  Age: <input name="age" type="number" required><br>
+  Email: <input name="email" type="email" required><br>
+  Gender: <input type="radio" name="gender" value="Male" required>Male
+          <input type="radio" name="gender" value="Female">Female<br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+JSP — validate.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
+<%
+String name=request.getParameter("name");
+String ageStr=request.getParameter("age");
+String email=request.getParameter("email");
+String gender=request.getParameter("gender");
+boolean ok=true; int age=0;
+try{ age=Integer.parseInt(ageStr); if(age<=0) ok=false; }catch(Exception e){ ok=false; }
+if(name==null||name.trim().equals("")) ok=false;
+if(email==null||!email.contains("@")) ok=false;
+if(gender==null) ok=false;
+%>
+<% if(ok){ %>
+<b>Name:</b> <%=name%><br><b>Age:</b> <%=age%><br>
+<b>Email:</b> <%=email%><br><b>Gender:</b> <%=gender%>
+<% } else { %><h3 style="color:red">Invalid input!</h3><% } %>
