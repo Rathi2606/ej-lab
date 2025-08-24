@@ -1,0 +1,14 @@
+HTML — taglib.html
+<!DOCTYPE html>
+<html>
+<head><title>Tag Library Demo</title></head>
+<body><a href="tagDemo.jsp">Open Tag Demo</a></body>
+</html>
+
+JSP — tagDemo.jsp
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<h3>JSTL Core Examples</h3>
+<c:set var="flag" value="${true}" />
+<c:if test="${flag}">Condition is TRUE<br/></c:if>
+<c:forEach var="i" begin="1" end="5">Number: ${i}<br/></c:forEach>
