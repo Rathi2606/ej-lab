@@ -1,0 +1,22 @@
+HTML — bookForm.html
+<!DOCTYPE html>
+<html>
+<head><title>Book Details</title></head>
+<body>
+<form action="bookDetails.jsp" method="post">
+  Book ID: <input name="bookid"><br>Title: <input name="title"><br>
+  Author: <input name="author"><br>Price: <input name="price"><br>
+  Publisher: <input name="publisher"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+JSP — bookDetails.jsp
+<%@ page contentType="text/html;charset=UTF-8" %>
+<h3>Book Information Submitted</h3>
+<b>Book ID:</b> ${param.bookid}<br>
+<b>Title:</b> ${param.title}<br>
+<b>Author:</b> ${param.author}<br>
+<b>Price:</b> ${param.price}<br>
+<b>Publisher:</b> ${param.publisher}
