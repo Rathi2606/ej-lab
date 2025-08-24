@@ -1,0 +1,30 @@
+HTML — index.html
+<!DOCTYPE html>
+<html>
+<head><title>Password Check</title></head>
+<body>
+  <form action="ValidateServlet" method="post">
+    Enter Password: <input name="pwd"><input type="submit" value="Go">
+  </form>
+</body>
+</html>
+
+Java — ValidateServlet.java (contains WelcomeServlet too)
+import java.io.*; import javax.servlet.*; import javax.servlet.http.*;
+
+public class ValidateServlet extends HttpServlet {
+  public void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    String pwd=req.getParameter("pwd");
+    if("Servlet".equals(pwd)) req.getRequestDispatcher("WelcomeServlet").forward(req,res);
+    else { res.setContentType("text/html"); res.getWriter().println("<h3>Invalid Password! Try again.</h3>"); }
+  }
+}
+
+class WelcomeServlet extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws IOException { res.setContentType("text/html"); res.getWriter().println("<h2>Welcome!</h2>"); }
+  public void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws IOException { doGet(req,res); }
+}
+
