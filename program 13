@@ -1,0 +1,31 @@
+HTML — cookie.html
+<!DOCTYPE html>
+<html>
+<head><title>Cookie Ops</title></head>
+<body>
+  <h2>Cookie Operations</h2>
+  <a href="CookieOps?action=create">Create Cookie</a><br>
+  <a href="CookieOps?action=get">Get Cookie</a><br>
+  <a href="CookieOps?action=delete">Delete Cookie</a>
+</body>
+</html>
+
+Java — CookieOps.java
+import java.io.*; import javax.servlet.*; import javax.servlet.http.*;
+
+public class CookieOps extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    res.setContentType("text/html"); PrintWriter out=res.getWriter();
+    String action=req.getParameter("action");
+    if("create".equals(action)){
+      Cookie c=new Cookie("user","John"); res.addCookie(c); out.println("Cookie Created (user=John)");
+    }else if("get".equals(action)){
+      Cookie[] cs=req.getCookies(); String val="(not found)";
+      if(cs!=null) for(Cookie ck:cs) if("user".equals(ck.getName())) val=ck.getValue();
+      out.println("Cookie Value: "+val);
+    }else if("delete".equals(action)){
+      Cookie c=new Cookie("user",""); c.setMaxAge(0); res.addCookie(c); out.println("Cookie Deleted");
+    }else out.println("Use action=create|get|delete");
+  }
+}
