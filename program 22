@@ -1,0 +1,15 @@
+HTML — intrinsic.html
+<!DOCTYPE html>
+<html>
+<head><title>Intrinsic Objects</title></head>
+<body><a href="intrinsicDemo.jsp">Show Intrinsic Objects</a></body>
+</html>
+
+JSP — intrinsicDemo.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
+<h3>JSP Intrinsic Objects Example</h3>
+<p>Request Method: <%= request.getMethod() %></p>
+<p>Client IP: <%= request.getRemoteAddr() %></p>
+<p>Session ID: <%= session.getId() %></p>
+<p>Application Context Path: <%= application.getContextPath() %></p>
+<% out.println("Printed using out object."); %>
