@@ -1,0 +1,36 @@
+HTML — catalogue.html
+<!DOCTYPE html>
+<html>
+<head><title>Book Catalogue</title></head>
+<body>
+  <h2>Book Catalogue</h2>
+  <form action="CatalogueServlet" method="post">
+    <input type="submit" value="View Catalogue">
+  </form>
+</body>
+</html>
+
+Java — CatalogueServlet.java
+import java.io.*; import java.sql.*;
+import javax.servlet.*; import javax.servlet.http.*;
+
+public class CatalogueServlet extends HttpServlet {
+  public void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    res.setContentType("text/html"); PrintWriter out = res.getWriter();
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      Connection con = DriverManager.getConnection(
+          "jdbc:mysql://localhost:3306/testdb","root","password");
+      Statement st = con.createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM books");
+      out.println("<h2>Book Catalogue</h2>");
+      out.println("<table border='1'><tr><th>Book Name</th><th>Price</th><th>Quantity</th><th>Amount</th></tr>");
+      while(rs.next()){
+        out.println("<tr><td>"+rs.getString("BookName")+"</td><td>"+rs.getDouble("Price")+
+          "</td><td>"+rs.getInt("Quantity")+"</td><td>"+rs.getDouble("Amount")+"</td></tr>");
+      }
+      out.println("</table>"); con.close();
+    } catch(Exception e){ out.println("Error: "+e.getMessage()); }
+  }
+}
