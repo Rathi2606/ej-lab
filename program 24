@@ -1,0 +1,51 @@
+HTML — index.html
+<!DOCTYPE html>
+<html>
+<head><title>Register & Login</title></head>
+<body>
+<h3>Register</h3>
+<form action="RegisterLoginServlet" method="post">
+  <input type="hidden" name="action" value="register">
+  Username: <input name="username" required><br>
+  Password: <input type="password" name="password" required><br>
+  Email: <input type="email" name="email" required><br>
+  <input type="submit" value="Register">
+</form>
+<hr>
+<h3>Login</h3>
+<form action="RegisterLoginServlet" method="post">
+  <input type="hidden" name="action" value="login">
+  Username: <input name="username" required>
+  Password: <input type="password" name="password" required>
+  <input type="submit" value="Login">
+</form>
+</body>
+</html>
+
+Java — RegisterLoginServlet.java
+import java.io.*; import java.sql.*;
+import javax.servlet.*; import javax.servlet.http.*;
+
+public class RegisterLoginServlet extends HttpServlet {
+  protected void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException {
+    res.setContentType("text/html"); PrintWriter out=res.getWriter();
+    String action=req.getParameter("action");
+    String u=req.getParameter("username"), p=req.getParameter("password");
+    try{
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","password");
+      if("register".equals(action)){
+        String email=req.getParameter("email");
+        PreparedStatement ps=con.prepareStatement("INSERT INTO users(username,password,email) VALUES(?,?,?)");
+        ps.setString(1,u); ps.setString(2,p); ps.setString(3,email);
+        out.println(ps.executeUpdate()>0?"<h3>Registration Successful! Please Login.</h3>":"<h3>Registration Failed</h3>");
+      }else if("login".equals(action)){
+        PreparedStatement ps=con.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
+        ps.setString(1,u); ps.setString(2,p);
+        out.println(ps.executeQuery().next()?"<h3>Welcome, "+u+"!</h3>":"<h3>Invalid Username or Password!</h3>");
+      }
+      con.close();
+    }catch(Exception e){ out.println(e); }
+  }
+}
