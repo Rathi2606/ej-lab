@@ -1,0 +1,23 @@
+HTML — cookie_type.html
+<!DOCTYPE html>
+<html>
+<head><title>Cookie Types</title></head>
+<body>
+  <a href="TypeCookieServlet?action=temp">Create Non-Persistent</a><br>
+  <a href="TypeCookieServlet?action=day">Create Persistent (1 day)</a>
+</body>
+</html>
+
+Java — TypeCookieServlet.java
+import java.io.*; import javax.servlet.*; import javax.servlet.http.*;
+
+public class TypeCookieServlet extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
+    res.setContentType("text/html"); PrintWriter out=res.getWriter();
+    String a=req.getParameter("action");
+    if("temp".equals(a)){ res.addCookie(new Cookie("tempCookie","yes")); out.println("Non-Persistent Cookie Created"); }
+    else if("day".equals(a)){ Cookie c=new Cookie("persistCookie","yes"); c.setMaxAge(24*60*60); res.addCookie(c); out.println("Persistent Cookie (1 day) Created"); }
+    else out.println("choose action=temp or action=day");
+  }
+}
