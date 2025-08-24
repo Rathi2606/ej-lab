@@ -1,0 +1,34 @@
+HTML — username.html
+<!DOCTYPE html>
+<html>
+<head><title>Save Name</title></head>
+<body>
+  <form action="NameServlet" method="post">
+    Enter Name: <input name="username"><input type="submit" value="Save">
+  </form>
+  <p><a href="WelcomeServlet">Go to Welcome</a></p>
+</body>
+</html>
+
+Java — NameServlet.java (includes WelcomeServlet)
+import java.io.*; import javax.servlet.*; import javax.servlet.http.*;
+
+public class NameServlet extends HttpServlet {
+  public void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    res.setContentType("text/html"); PrintWriter out=res.getWriter();
+    String name=req.getParameter("username");
+    res.addCookie(new Cookie("username", name));
+    out.println("Name stored in cookie. <a href='WelcomeServlet'>Go</a>");
+  }
+}
+
+class WelcomeServlet extends HttpServlet {
+  public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws IOException, ServletException {
+    res.setContentType("text/html"); PrintWriter out=res.getWriter();
+    String name="Guest"; Cookie[] cs=req.getCookies();
+    if(cs!=null) for(Cookie ck:cs) if("username".equals(ck.getName())) name=ck.getValue();
+    out.println("<h2>Welcome, "+name+"</h2>");
+  }
+}
