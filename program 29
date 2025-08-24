@@ -1,0 +1,25 @@
+HTML — guestbook.html
+<!DOCTYPE html>
+<html>
+<head><title>Guest Book</title></head>
+<body>
+  <form action="guestbook.jsp" method="post">
+    Name: <input name="name"><br>
+    Message: <textarea name="message"></textarea><br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
+
+JSP — guestbook.jsp
+<%@ page import="java.util.*" contentType="text/html;charset=UTF-8" %>
+<h3>Guest Book Entries</h3>
+<%
+List<String> guestList=(List<String>)session.getAttribute("guestList");
+if(guestList==null){ guestList=new ArrayList<>(); session.setAttribute("guestList",guestList); }
+String n=request.getParameter("name"), m=request.getParameter("message");
+if(n!=null && m!=null && !n.isEmpty() && !m.isEmpty()) guestList.add(n+" : "+m);
+%>
+<ul>
+<% for(String e: guestList){ %><li><%= e %></li><% } %>
+</ul>
