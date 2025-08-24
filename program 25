@@ -1,0 +1,32 @@
+HTML — employee.html
+<!DOCTYPE html>
+<html>
+<head><title>Update Employee</title></head>
+<body>
+  <form action="updateEmployee.jsp" method="post">
+    eno: <input name="eno"><br>Name: <input name="name"><br>
+    Age: <input name="age"><br>Desg: <input name="desg"><br>
+    Salary: <input name="salary"><br>
+    <input type="submit" value="Update">
+  </form>
+</body>
+</html>
+
+JSP — updateEmployee.jsp
+<%@ page import="java.sql.*" %>
+<%
+String eno=request.getParameter("eno");
+String name=request.getParameter("name");
+String age=request.getParameter("age");
+String desg=request.getParameter("desg");
+String sal=request.getParameter("salary");
+try{
+  Class.forName("com.mysql.cj.jdbc.Driver");
+  Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/testdb","root","password");
+  PreparedStatement ps=con.prepareStatement("UPDATE employee SET name=?,age=?,desg=?,salary=? WHERE eno=?");
+  ps.setString(1,name); ps.setInt(2,Integer.parseInt(age)); ps.setString(3,desg);
+  ps.setDouble(4,Double.parseDouble(sal)); ps.setInt(5,Integer.parseInt(eno));
+  out.println(ps.executeUpdate()>0?"Employee Updated Successfully!":"No Employee Found with eno: "+eno);
+  con.close();
+}catch(Exception e){ out.println("Error: "+e.getMessage()); }
+%>
